@@ -1,0 +1,28 @@
+name: Events Demo1
+on:
+  pull_request:
+    types:
+      - opened
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output event data
+        run: echo "${{toJSON(github.event)}}"
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -v
+      - name: Simulate deployment
+        run: |
+          echo "✅ Tests passed. Starting deployment..."
+          echo "Building app..."
+          sleep 2
+          echo "Deploying to production..."
+          sleep 2
+          echo "🚀 Deployment complete!"
